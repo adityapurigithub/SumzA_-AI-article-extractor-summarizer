@@ -130,16 +130,18 @@ const Demo = () => {
             </span>
           </p>
         ) : (
-          <div className="flex flex-col gap-3 ">
-            <h2 className="font-bold text-xl text-center">
-              Article <span className="blue_gradient">Summary...</span>
-            </h2>
-            <div className="summary_box text-justify">
-              <p className="font-inter font-medium text-sm text-gray-700 leading-2">
-                {article.summary}
-              </p>
+          article.summary && (
+            <div className="flex flex-col gap-3 ">
+              <h2 className="font-bold text-xl text-center">
+                Article <span className="blue_gradient">Summary...</span>
+              </h2>
+              <div className="summary_box text-justify">
+                <p className="font-inter font-medium text-sm text-gray-700 leading-2">
+                  {article.summary}
+                </p>
+              </div>
             </div>
-          </div>
+          )
         )}
       </div>
     </section>
