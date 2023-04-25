@@ -13,6 +13,9 @@ const Demo = () => {
   // for storing history of links...
   const [allArticle, setAllArticle] = useState([]);
 
+  // for copy purpose..
+  const [copyLink, setCopyLink] = useState("");
+
   //the breakdown of below hook... [_endpoint_function_to_call_API,{state_err,state_isFetching}]=_hook()_;
 
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
@@ -47,6 +50,17 @@ const Demo = () => {
     }
   };
 
+  // sunction for copying the summery...
+  const handleCopy = (copyUrl) => {
+    setCopyLink(copyUrl);
+
+    navigator.clipboard.writeText(copyUrl);
+
+    setTimeout(() => {
+      setCopyLink("");
+    }, 3000);
+  };
+
   return (
     <section className="mt-16 w-full max-w-xl">
       <div className="w-full flex flex-col gap-2">
@@ -73,10 +87,61 @@ const Demo = () => {
           {/* when we focus on peer-class element the btn above will get styled accordingly.. */}
         </form>
 
-        {/* Browse URl History...the urls we have used or seen... */}
+        {/* Browse URL History...the urls we have used or seen... */}
+        {allArticle.length !== 0 && (
+          <div className="flex flex-col max-h-60 overflow-y-auto w-[90%] m-auto">
+            <h2 className="font-bold text-xl text-center my-4">
+              Previously Visited Links...
+            </h2>
+            {allArticle.map((article, index) => (
+              <div
+                key={`link-${index}`}
+                onClick={() => setArticle(article)}
+                className="link_card "
+              >
+                <div
+                  className="copy_btn"
+                  onClick={() => handleCopy(article.url)}
+                >
+                  <img
+                    src={copyLink === article.url ? tick : copy}
+                    alt="icon"
+                    className="w-[60%] h-[60%] object-contain"
+                  />
+                </div>
+                <p className="flex-1 font-satoshi text-blue-400 text-sm font-semibold truncate ">
+                  {article.url}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/*Display Results */}
+      <div className="my-10 flex justify-center items-center">
+        {isFetching ? (
+          <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
+        ) : error ? (
+          <p className="font-bold text-center ">
+            Well, that wasn't suppose to happen..!!! <br />
+            <span className="font-satoshi font-normal text-gray-700">
+              {error?.data?.error}
+            </span>
+          </p>
+        ) : (
+          <div className="flex flex-col gap-3 ">
+            <h2 className="font-bold text-xl text-center">
+              Article <span className="blue_gradient">Summary...</span>
+            </h2>
+            <div className="summary_box text-justify">
+              <p className="font-inter font-medium text-sm text-gray-700 leading-2">
+                {article.summary}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   );
 };
