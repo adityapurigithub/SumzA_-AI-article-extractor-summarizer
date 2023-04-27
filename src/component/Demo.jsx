@@ -54,7 +54,7 @@ const Demo = () => {
   const handleCopy = (copyUrl) => {
     setCopyLink(copyUrl);
 
-    navigator.clipboard.writeText(copyUrl);
+    navigator.clipboard.writeText(copyUrl); //for copying the text....remeber..
 
     setTimeout(() => {
       setCopyLink("");

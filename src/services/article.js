@@ -43,5 +43,5 @@ export const articleApi = createApi({
 
 // from end points it automatically create a hook.....
 //here we are using lazy as we dont want to fire it as the app loads....means when we want it only then it will fire.
-// we can also use the hook without Lazy keyword in it...
+// we can also use the hook without Lazy keyword in it...useGetSummaryQuery..
 export const { useLazyGetSummaryQuery } = articleApi;
